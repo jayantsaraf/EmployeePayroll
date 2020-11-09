@@ -40,3 +40,14 @@ group by gender;
 -- UC8 Additional Infor addition to table
 alter table employee_payroll add phone_number varchar(13)
 alter table employee_payroll add address varchar(250), department varchar(20)
+
+--Add department for existing enteries
+Update employee_payroll set department = 'Sales' where id in (1 , 3);
+Update employee_payroll set department = 'Marketting' where id = 2;
+--Adding constraints
+alter table employee_payroll add constraint default_address default 'India' for address
+alter table employee_payroll alter column department varchar(20) Not null
+--Add salary divisions
+alter table employee_payroll add deduction float, taxable_pay real, income_tax real, net_pay real
+--Rename salary column
+EXEC sp_rename 'employee_payroll.salary', 'basic_pay', 'COLUMN';
