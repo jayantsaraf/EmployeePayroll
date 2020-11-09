@@ -36,3 +36,7 @@ select MAX(salary), gender from employee_payroll
 group by gender;
 select COUNT(gender), gender from employee_payroll
 group by gender;
+
+-- UC8 Additional Infor addition to table
+alter table employee_payroll add phone_number varchar(13)
+alter table employee_payroll add address varchar(250), department varchar(20)
