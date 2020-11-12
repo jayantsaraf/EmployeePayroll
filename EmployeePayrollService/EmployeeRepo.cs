@@ -111,10 +111,12 @@ namespace EmployeePayrollService
             {
                 using(this.connection)
                 {
-                    SqlCommand command = new SqlCommand("spUpdateEmployeeDetails", this.connection);
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@EmployeeName", name);
-                    command.Parameters.AddWithValue("@NewSalary", newSalary);
+                    //SqlCommand command = new SqlCommand("SpUpdateEmployeeDetails", connection);
+                    //command.CommandType = System.Data.CommandType.StoredProcedure;
+                    //command.Parameters.AddWithValue("@EmployeeName", name);
+                    //command.Parameters.AddWithValue("@NewSalary", newSalary);
+                    string query = @"Update employee_payroll set basic_pay = '" + newSalary + "' where name = '" + name + "'";
+                    SqlCommand command = new SqlCommand(query, this.connection);
                     this.connection.Open();
                     var result = command.ExecuteNonQuery();
                     this.connection.Close();
@@ -135,6 +137,49 @@ namespace EmployeePayrollService
                 this.connection.Close();
             }
             return false;
+        }
+        public void Retrieve_Employee_Within_Specified_Joining_Date(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    EmployeeModel employeeModel = new EmployeeModel();
+                    string query = @"select * from employee_payroll where start between '" + startDate + "'and '" + endDate + "';"; 
+                    SqlCommand command = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader dr = command.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            employeeModel.EmployeeID = dr.GetInt32(0);
+                            employeeModel.EmployeeName = dr.IsDBNull(1) ? "NA" : dr.GetString(1);
+                            employeeModel.BasicPay = dr.IsDBNull(2) ? 0 :  dr.GetDecimal(2);
+                            employeeModel.StartDate = dr.IsDBNull(3) ? Convert.ToDateTime("01/01/0001") :  dr.GetDateTime(3);
+                            employeeModel.Gender = dr.IsDBNull(4) ? ' '  :  Convert.ToChar(dr.GetString(4));
+                            employeeModel.PhoneNumber = dr.IsDBNull(5) ? "NA" : dr.GetString(5);
+                            employeeModel.Address = dr.IsDBNull(6) ? "NA" :  dr.GetString(6);
+                            employeeModel.Department = dr.IsDBNull(7) ? "NA" :  dr.GetString(7);
+                            employeeModel.Deductions = dr.IsDBNull(8) ? 0 :  dr.GetDouble(8);
+                            employeeModel.TaxablePay = dr.IsDBNull(9) ? 0 :  dr.GetDouble(9);
+                            employeeModel.Tax = dr.IsDBNull(10) ? 0 :  dr.GetDouble(10);
+                            employeeModel.NetPay = dr.IsDBNull(11) ? 0 :  dr.GetDouble(11);
+                            System.Console.WriteLine(employeeModel.EmployeeName + " " + employeeModel.BasicPay + " " + employeeModel.StartDate + " " + employeeModel.Gender + " " + employeeModel.PhoneNumber + " " + employeeModel.Address + " " + employeeModel.Department + " " + employeeModel.Deductions + " " + employeeModel.TaxablePay + " " + employeeModel.Tax + " " + employeeModel.NetPay);
+                            System.Console.WriteLine("\n");
+                        }
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("No data found");
+                    }
+                    this.connection.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
     }

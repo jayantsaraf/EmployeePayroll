@@ -149,7 +149,8 @@ insert into employee_payroll values
 end
 
 --stored procedure to update salary
-create procedure SpUpdateEmployeeDetails
+GO
+create procedure spUpdateEmployeeDetails
 (
 @NewSalary money,
 @EmployeeName varchar(25)
