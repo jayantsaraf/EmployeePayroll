@@ -124,7 +124,8 @@ insert into company values
 (2, '2019-11-13', 200000, 10000, 190000,3000,187000,2),
 (3, '2020-05-21', 300000, 20000, 280000, 5000, 275000,3);
 
---stored procedure
+select * from employee_payroll
+--stored procedure to add employee details
 create procedure SpAddEmployeeDetails
 (
 @EmployeeName varchar(255),
@@ -145,4 +146,16 @@ insert into employee_payroll values
 (
 @EmployeeName,@BasicPay,@StartDate,@Gender,@PhoneNumber,@Address,@Department,@Deductions,@TaxablePay,@Tax,@NetPay
 )
+end
+
+--stored procedure to update salary
+create procedure SpUpdateEmployeeDetails
+(
+@NewSalary money,
+@EmployeeName varchar(25)
+)
+as
+begin
+update employee_payroll
+set basic_pay = @NewSalary where name = @EmployeeName
 end
