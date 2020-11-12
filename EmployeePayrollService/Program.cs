@@ -25,7 +25,11 @@ namespace EmployeePayrollService
             //    Console.WriteLine("Records added successfully");
             //if(employeeRepo.UpdateSalary("Bill", 200000))
             //    Console.WriteLine("Salary Updated successfully");
-            employeeRepo.Retrieve_Employee_Within_Specified_Joining_Date(Convert.ToDateTime("03/11/2018"), Convert.ToDateTime("03/11/2019"));
+            //employeeRepo.Retrieve_Employee_Within_Specified_Joining_Date(Convert.ToDateTime("03/11/2018"), Convert.ToDateTime("03/11/2019"));
+            employeeRepo.SumOfEmployeeSalary();
+            employeeRepo.AverageOfEmployeeSalary();
+            employeeRepo.MinOfEmployeeSalary();
+            employeeRepo.MaxOfEmployeeSalary();
         }
 
     }
