@@ -9,8 +9,7 @@ namespace EmployeePayrollService
             Console.WriteLine("Hello World!");
             EmployeeRepo employeeRepo = new EmployeeRepo();
             employeeRepo.GetAllEmployee();
-            EmployeeModel employee = new EmployeeModel();
-            employee.Address
+            
             
         }
     }
